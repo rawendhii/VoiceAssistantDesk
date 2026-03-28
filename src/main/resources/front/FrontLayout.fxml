@@ -36,10 +36,11 @@
             <Button text="Voice Commands" maxWidth="1.7976931348623157E308" onAction="#goVoice"/>
             <Button text="Files" maxWidth="1.7976931348623157E308" onAction="#goFiles"/>
             <Button text="Profile" maxWidth="1.7976931348623157E308" onAction="#goProfile"/>
+                        <Button text="<Help" maxWidth="1.7976931348623157E308" onAction="#onhelp"/>
+            
 
             <Region VBox.vgrow="ALWAYS"/>
 
-            <Button text="Go to Back Office" maxWidth="1.7976931348623157E308" onAction="#goBack"/>
         </VBox>
     </left>
 

@@ -18,7 +18,7 @@
                 <Insets top="18" right="18" bottom="18" left="18"/>
             </padding>
 
-            <Label text="Help & Commands"
+            <Label text="Help and Commands"
                    style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
 
             <Label text="Here you can find examples of voice commands and how to use the application."
