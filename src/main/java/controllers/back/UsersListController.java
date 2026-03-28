@@ -172,6 +172,21 @@ public class UsersListController {
                 return;
             }
 
+            String currentRoleName = userServices.getRoleNameByUserId(id);
+            if (currentRoleName == null) {
+                showError("User not found.");
+                return;
+            }
+
+            if ("ADMIN".equalsIgnoreCase(currentRoleName)
+                    && !"ADMIN".equalsIgnoreCase(role.getName())) {
+                int adminCount = userServices.countAdmins();
+                if (adminCount <= 1) {
+                    showError("You cannot change the last admin to a non-admin role.");
+                    return;
+                }
+            }
+
             User u = new User(
                     id,
                     fullNameField.getText().trim(),

@@ -28,12 +28,12 @@ public class BackLayoutController {
 
     @FXML
     private void goUsers() {
-        load("/back/Users_List.fxml");
+        load("/back/UsersList.fxml");
     }
 
     @FXML
     private void goCommands() {
-        load("/back/Commands_History.fxml");
+        load("/back/CommandsHistory.fxml");
     }
 
     @FXML
@@ -41,7 +41,7 @@ public class BackLayoutController {
         load("/front/FrontHome.fxml");
     }
     @FXML private void goRoles()    { 
-    	load("/back/Roles_List.fxml"); }
+    	load("/back/RolesList.fxml"); }
     @FXML private void goSettings() { 
     	load("/back/Settings.fxml"); }
 

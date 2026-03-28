@@ -211,4 +211,20 @@ public class UserServices {
             }
         }
     }
+    public String getRoleNameByUserId(int userId) throws SQLException {
+        String sql = """
+            SELECT r.name
+            FROM users u
+            JOIN roles r ON r.id = u.role_id
+            WHERE u.id = ?
+        """;
+
+        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getString("name") : null;
+            }
+        }
+    }
     }
