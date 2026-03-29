@@ -227,4 +227,13 @@ public class UserServices {
             }
         }
     }
+    public boolean userExistsById(long userId) throws SQLException {
+        String sql = "SELECT 1 FROM users WHERE id = ? LIMIT 1";
+        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
+            ps.setLong(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
     }

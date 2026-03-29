@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.back.ManagedFilesController"
+            prefWidth="1200.0" prefHeight="720.0"
+            style="-fx-background-color: #f8fafc;">
+
+    <top>
+        <VBox spacing="12.0" style="-fx-padding: 20;">
+            <Label text="Managed Files"
+                   style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+
+            <HBox spacing="10.0">
+                <TextField fx:id="searchField"
+                           promptText="Search by user, file name, or path..."
+                           prefWidth="320.0" />
+
+                <ComboBox fx:id="typeFilterCombo" prefWidth="140.0" />
+
+                <Button text="Search" onAction="#onSearch" />
+                <Button text="Refresh" onAction="#onRefresh" />
+                <Button text="Load Selected" onAction="#onLoadSelected" />
+                <Button text="Clear" onAction="#onClear" />
+            </HBox>
+
+            <Label fx:id="messageLabel"
+                   text=""
+                   visible="false"
+                   style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+        </VBox>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.67">
+            <items>
+
+                <VBox spacing="10.0" style="-fx-padding: 20;">
+                    <Label text="Managed Files List"
+                           style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
+
+                    <TableView fx:id="filesTable" prefHeight="560.0">
+                        <columns>
+                            <TableColumn fx:id="colId" text="ID" prefWidth="70.0" />
+                            <TableColumn fx:id="colUser" text="User" prefWidth="150.0" />
+                            <TableColumn fx:id="colFileName" text="File Name" prefWidth="160.0" />
+                            <TableColumn fx:id="colFilePath" text="File Path" prefWidth="260.0" />
+                            <TableColumn fx:id="colFileType" text="Type" prefWidth="90.0" />
+                            <TableColumn fx:id="colCreatedAt" text="Created At" prefWidth="170.0" />
+                            <TableColumn fx:id="colUpdatedAt" text="Updated At" prefWidth="170.0" />
+                        </columns>
+                    </TableView>
+                </VBox>
+
+                <VBox spacing="14.0" style="-fx-padding: 20;">
+                    <Label text="Managed File Form"
+                           style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
+
+                    <GridPane hgap="10.0" vgap="12.0">
+                        <columnConstraints>
+                            <ColumnConstraints minWidth="110.0" prefWidth="110.0" />
+                            <ColumnConstraints hgrow="ALWAYS" />
+                        </columnConstraints>
+
+                        <Label text="ID:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                        <TextField fx:id="idField" editable="false"
+                                   GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                        <Label text="User ID:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                        <TextField fx:id="userIdField" promptText="e.g. 39"
+                                   GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+                        <Label text="File Name:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                        <TextField fx:id="fileNameField" promptText="e.g. report.txt"
+                                   GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+                        <Label text="File Path:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                        <TextField fx:id="filePathField" promptText="e.g. C:/voice_assistant_files/report.txt"
+                                   GridPane.rowIndex="3" GridPane.columnIndex="1" />
+
+                        <Label text="File Type:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+                        <TextField fx:id="fileTypeField" promptText="e.g. txt"
+                                   GridPane.rowIndex="4" GridPane.columnIndex="1" />
+                    </GridPane>
+
+                    <HBox spacing="10.0">
+                        <Button text="Add" onAction="#onAdd" prefWidth="90.0" />
+                        <Button text="Update" onAction="#onUpdate" prefWidth="90.0" />
+                        <Button text="Delete" onAction="#onDelete" prefWidth="90.0" />
+                    </HBox>
+                </VBox>
+
+            </items>
+        </SplitPane>
+    </center>
+
+    <padding>
+        <Insets top="10.0" right="10.0" bottom="10.0" left="10.0" />
+    </padding>
+</BorderPane>

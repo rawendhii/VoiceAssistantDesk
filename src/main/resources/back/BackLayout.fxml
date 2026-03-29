@@ -45,6 +45,11 @@
             maxWidth="Infinity"
             onAction="#goRoles"
             styleClass="nav-btn"/>
+            
+    <Button text="Managed Files"
+        onAction="#goManagedFiles"
+        prefWidth="180.0"
+        styleClass="nav-btn" />
 
     <Button text="Command History"
         onAction="#goCommands"
