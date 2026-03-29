@@ -36,20 +36,21 @@
             onAction="#goDashboard"
             styleClass="nav-btn"/>
 
-    <Button text="Utilisateurs"
+    <Button text="Users"
             maxWidth="Infinity"
             onAction="#goUsers"
             styleClass="nav-btn"/>
 
-    <Button text="Rôles"
+    <Button text="Roles"
             maxWidth="Infinity"
             onAction="#goRoles"
             styleClass="nav-btn"/>
 
-    <Button text="Historique commandes"
-            maxWidth="Infinity"
-            onAction="#goCommands"
-            styleClass="nav-btn"/>
+    <Button text="Command History"
+        onAction="#goCommands"
+        prefWidth="180.0"
+        styleClass="nav-btn" />
+    <Button text="Voice Commands" onAction="#goVoiceCommands" styleClass="nav-btn" />
 
     <Button text="Settings"
             maxWidth="Infinity"

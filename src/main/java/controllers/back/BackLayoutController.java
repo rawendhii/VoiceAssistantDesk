@@ -45,6 +45,10 @@ public class BackLayoutController {
     @FXML private void goSettings() { 
     	load("/back/Settings.fxml"); }
 
+    @FXML
+    private void goVoiceCommands() {
+        load("/back/VoiceCommandsList.fxml");
+    }
     private void load(String path) {
         try {
             URL url = getClass().getResource(path);
