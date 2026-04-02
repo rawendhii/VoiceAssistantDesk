@@ -181,4 +181,59 @@ public class ManagedFileServices {
             }
         }
     }
+    public List<ManagedFileRow> fetchRowsByUserId(long userId, String keyword, String typeFilter) throws SQLException {
+        List<ManagedFileRow> rows = new ArrayList<>();
+
+        StringBuilder sql = new StringBuilder("""
+            SELECT mf.id,
+                   u.full_name AS user_name,
+                   mf.file_name,
+                   mf.file_path,
+                   mf.file_type,
+                   mf.created_at,
+                   mf.updated_at
+            FROM managed_files mf
+            JOIN users u ON u.id = mf.user_id
+            WHERE mf.user_id = ?
+        """);
+
+        List<Object> params = new ArrayList<>();
+        params.add(userId);
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            sql.append(" AND (mf.file_name LIKE ? OR mf.file_path LIKE ?) ");
+            String like = "%" + keyword.trim() + "%";
+            params.add(like);
+            params.add(like);
+        }
+
+        if (typeFilter != null && !typeFilter.trim().isEmpty() && !"ALL".equalsIgnoreCase(typeFilter)) {
+            sql.append(" AND UPPER(mf.file_type) = UPPER(?) ");
+            params.add(typeFilter.trim());
+        }
+
+        sql.append(" ORDER BY mf.updated_at DESC");
+
+        try (PreparedStatement ps = cnx.prepareStatement(sql.toString())) {
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    rows.add(new ManagedFileRow(
+                            rs.getInt("id"),
+                            rs.getString("user_name"),
+                            rs.getString("file_name"),
+                            rs.getString("file_path"),
+                            rs.getString("file_type"),
+                            rs.getTimestamp("created_at").toString(),
+                            rs.getTimestamp("updated_at").toString()
+                    ));
+                }
+            }
+        }
+
+        return rows;
+    }
 }

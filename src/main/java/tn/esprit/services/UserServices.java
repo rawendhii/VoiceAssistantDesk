@@ -16,6 +16,8 @@ public class UserServices {
         cnx = DBConnection.getInstance().getCnx();
     }
 
+    // ============ MÉTHODES EXISTANTES ============
+    
     public int ajouter(User u) throws SQLException {
         String sql = "INSERT INTO users(full_name, email, password_hash, role_id) VALUES (?,?,?,?)";
         try (PreparedStatement ps = cnx.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -200,6 +202,7 @@ public class UserServices {
             }
         }
     }
+    
     public boolean emailExistsForOtherUser(String email, int currentUserId) throws SQLException {
         String sql = "SELECT 1 FROM users WHERE email = ? AND id <> ? LIMIT 1";
         try (PreparedStatement ps = cnx.prepareStatement(sql)) {
@@ -211,6 +214,7 @@ public class UserServices {
             }
         }
     }
+    
     public String getRoleNameByUserId(int userId) throws SQLException {
         String sql = """
             SELECT r.name
@@ -227,6 +231,7 @@ public class UserServices {
             }
         }
     }
+    
     public boolean userExistsById(long userId) throws SQLException {
         String sql = "SELECT 1 FROM users WHERE id = ? LIMIT 1";
         try (PreparedStatement ps = cnx.prepareStatement(sql)) {
@@ -236,4 +241,73 @@ public class UserServices {
             }
         }
     }
+    
+    // ============ NOUVELLES MÉTHODES POUR LE PROFIL ============
+    
+    // Récupérer un utilisateur complet par son ID (avec le nom du rôle)
+    public User getUserById(int userId) throws SQLException {
+        String sql = """
+            SELECT u.id, u.full_name, u.email, u.password_hash, u.role_id, r.name AS role_name
+            FROM users u
+            JOIN roles r ON r.id = u.role_id
+            WHERE u.id = ?
+        """;
+        
+        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    User u = new User();
+                    u.setId(rs.getInt("id"));
+                    u.setFullName(rs.getString("full_name"));
+                    u.setEmail(rs.getString("email"));
+                    u.setPasswordHash(rs.getString("password_hash"));
+                    u.setRoleId(rs.getInt("role_id"));
+                    u.setRoleName(rs.getString("role_name"));
+                    return u;
+                }
+            }
+        }
+        return null;
     }
+    
+    // Mettre à jour le profil (sans mot de passe)
+    public boolean updateProfile(User user) throws SQLException {
+        String sql = "UPDATE users SET full_name = ?, email = ? WHERE id = ?";
+        
+        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
+            ps.setString(1, user.getFullName());
+            ps.setString(2, user.getEmail());
+            ps.setInt(3, user.getId());
+            
+            return ps.executeUpdate() > 0;
+        }
+    }
+    
+    // Changer le mot de passe
+    public boolean changePassword(int userId, String oldPassword, String newPassword) throws SQLException {
+        // Vérifier l'ancien mot de passe
+        String checkSql = "SELECT password_hash FROM users WHERE id = ?";
+        
+        try (PreparedStatement checkStmt = cnx.prepareStatement(checkSql)) {
+            checkStmt.setInt(1, userId);
+            try (ResultSet rs = checkStmt.executeQuery()) {
+                if (rs.next()) {
+                    String currentHash = rs.getString("password_hash");
+                    // Comparaison directe (si pas de hash)
+                    if (currentHash.equals(oldPassword)) {
+                        // Mettre à jour avec le nouveau mot de passe
+                        String updateSql = "UPDATE users SET password_hash = ? WHERE id = ?";
+                        try (PreparedStatement updateStmt = cnx.prepareStatement(updateSql)) {
+                            updateStmt.setString(1, newPassword);
+                            updateStmt.setInt(2, userId);
+                            return updateStmt.executeUpdate() > 0;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
+}

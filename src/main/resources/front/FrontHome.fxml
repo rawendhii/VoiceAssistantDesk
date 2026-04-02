@@ -4,26 +4,47 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml/1"
       stylesheets="@/styles/app.css"
-      spacing="16">
+      spacing="20"
+      alignment="TOP_CENTER"
+      prefHeight="400"
+      prefWidth="600">
 
     <padding>
-        <Insets top="24" right="24" bottom="24" left="24"/>
+        <Insets top="40" right="20" bottom="20" left="20"/>
     </padding>
 
-    <Label text="Home" styleClass="title"/>
-    <Label text="Welcome. Use the menu to access voice commands and file operations."
-           styleClass="subtitle"/>
+    <Label text="Bienvenue sur l'Assistant Vocal" styleClass="title">
+        <font><Font size="28"/></font>
+    </Label>
+
+    <Label text="Utilisez votre voix pour interagir avec l'application"
+           style="-fx-font-size: 16px; -fx-text-fill: #4b5563;"/>
 
     <HBox styleClass="card">
-        <VBox spacing="8">
-            <Label text="Quick Start" styleClass="title"/>
-            <Label text="1) Open Voice Commands"/>
-            <Label text="2) Speak a command"/>
-            <Label text="3) Confirm the action"/>
+        <VBox spacing="10" alignment="CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            
+            <Label text="Commandes vocales disponibles :" 
+                   style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #1f2937;"/>
+            <Label text="• 'créer fichier' - Créer un nouveau fichier" 
+                   style="-fx-text-fill: #4b5563;"/>
+            <Label text="• 'lire fichier' - Lire le contenu d'un fichier" 
+                   style="-fx-text-fill: #4b5563;"/>
+            <Label text="• 'modifier fichier' - Modifier un fichier" 
+                   style="-fx-text-fill: #4b5563;"/>
+            <Label text="• 'supprimer fichier' - Supprimer un fichier" 
+                   style="-fx-text-fill: #4b5563;"/>
+            <Label text="• 'liste fichiers' - Afficher la liste des fichiers" 
+                   style="-fx-text-fill: #4b5563;"/>
+            <Label text="• 'aide' - Afficher l'aide" 
+                   style="-fx-text-fill: #4b5563;"/>
         </VBox>
     </HBox>
 
