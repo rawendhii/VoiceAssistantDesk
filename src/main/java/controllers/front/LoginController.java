@@ -29,16 +29,23 @@ public class LoginController {
         String email = emailField.getText() == null ? "" : emailField.getText().trim();
         String pass = passwordField.getText() == null ? "" : passwordField.getText().trim();
 
-        if (!EMAIL_PATTERN.matcher(email).matches()) { showError("Invalid email."); return; }
-        if (pass.length() < 6) { showError("Password must be at least 6 characters."); return; }
+        if (!EMAIL_PATTERN.matcher(email).matches()) { 
+            showError("Invalid email."); 
+            return; 
+        }
+        if (pass.length() < 6) { 
+            showError("Password must be at least 6 characters."); 
+            return; 
+        }
 
         try {
-        	String password = pass;
-        	User u = userServices.login(email, password);
+            User u = userServices.login(email, pass);
             if (u == null) {
                 showError("Wrong email or password.");
                 return;
             }
+            
+            // ✅ Sauvegarde dans la session (correct)
             SessionManager.setUser(u);
 
             if ("ADMIN".equalsIgnoreCase(u.getRoleName())) {

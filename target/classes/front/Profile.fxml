@@ -1,24 +1,121 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
 
-<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
-      spacing="14" style="-fx-background-color: #f3f4f6;">
-    <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
+<VBox xmlns="http://javafx.com/javafx/17" 
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.front.ProfileController"
+      spacing="20"
+      styleClass="profile-container"
+      stylesheets="@../styles/app.css">
 
-    <Label text="Profile" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
-    <Label text="User information and accessibility preferences."
-           style="-fx-text-fill: #374151;"/>
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/>
+    </padding>
 
-    <HBox style="-fx-background-color: white; -fx-border-color: #e5e7eb; -fx-border-radius: 10; -fx-background-radius: 10;">
-        <padding><Insets top="16" right="16" bottom="16" left="16"/></padding>
-        <VBox spacing="6">
-            <Label text="Name: (to be loaded)" style="-fx-text-fill: #111827;"/>
-            <Label text="Email: (to be loaded)" style="-fx-text-fill: #111827;"/>
-            <Label text="Role: (to be loaded)" style="-fx-text-fill: #111827;"/>
-        </VBox>
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="20">
+        <Button text="← Back" onAction="#handleBack" styleClass="back-button"/>
+        <Text text="My Profile" styleClass="page-title"/>
     </HBox>
+
+    <!-- Separator -->
+    <Separator/>
+
+    <!-- Main Content -->
+    <VBox spacing="20" styleClass="profile-content">
+        
+        <!-- Tabs -->
+        <TabPane>
+            <!-- Personal Information Tab -->
+            <Tab text="Personal Information" closable="false">
+                <VBox spacing="15">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    
+                    <GridPane hgap="20" vgap="15">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="30"/>
+                            <ColumnConstraints percentWidth="70"/>
+                        </columnConstraints>
+
+                        <!-- Full Name -->
+                        <Label text="Full Name :" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="label-field"/>
+                        <TextField fx:id="fullNameField" GridPane.rowIndex="0" GridPane.columnIndex="1" promptText="Your full name"/>
+
+                        <!-- Email -->
+                        <Label text="Email :" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="label-field"/>
+                        <TextField fx:id="emailField" GridPane.rowIndex="1" GridPane.columnIndex="1" promptText="Email"/>
+
+                        <!-- Member Since -->
+                        <Label text="Member Since :" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="label-field"/>
+                        <Label fx:id="memberSinceLabel" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="info-label"/>
+                    </GridPane>
+
+                    <HBox spacing="15" alignment="CENTER_RIGHT">
+                        <Button text="Cancel" onAction="#handleCancel" styleClass="cancel-button"/>
+                        <Button text="Save" onAction="#handleSave" styleClass="save-button"/>
+                    </HBox>
+
+                    <Label fx:id="messageLabel" styleClass="message-label" prefHeight="30"/>
+                </VBox>
+            </Tab>
+
+            <!-- Change Password Tab -->
+            <Tab text="Change Password" closable="false">
+                <VBox spacing="15">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    
+                    <GridPane hgap="20" vgap="15">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="30"/>
+                            <ColumnConstraints percentWidth="70"/>
+                        </columnConstraints>
+
+                        <Label text="Current Password :" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="label-field"/>
+                        <PasswordField fx:id="currentPasswordField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                        <Label text="New Password :" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="label-field"/>
+                        <PasswordField fx:id="newPasswordField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                        <Label text="Confirm Password :" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="label-field"/>
+                        <PasswordField fx:id="confirmPasswordField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    </GridPane>
+
+                    <!-- Real-time validation label -->
+                    <Label fx:id="confirmPasswordValidationLabel" styleClass="validation-label" visible="false" prefHeight="25"/>
+
+                    <HBox spacing="15" alignment="CENTER_RIGHT">
+                        <Button text="Cancel" onAction="#clearPasswordFields" styleClass="cancel-button"/>
+                        <Button text="Change" onAction="#handleChangePassword" styleClass="save-button"/>
+                    </HBox>
+
+                    <!-- Message label with height -->
+                    <Label fx:id="passwordMessageLabel" styleClass="message-label" prefHeight="30"/>
+                </VBox>
+            </Tab>
+        </TabPane>
+        
+        <!-- Danger Zone - Delete Account Section -->
+        <Separator/>
+        
+        <VBox spacing="10" styleClass="danger-zone">
+            <padding>
+                <Insets top="10" right="20" bottom="10" left="20"/>
+            </padding>
+            
+            <Label text="⚠️ Danger Zone" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #dc3545;"/>
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <Label text="Delete your account permanently?" style="-fx-text-fill: #6c757d;"/>
+                <Button text="Delete Account" onAction="#handleDeleteAccount" 
+                        style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-background-radius: 5; -fx-padding: 5 15 5 15;"/>
+            </HBox>
+        </VBox>
+    </VBox>
 </VBox>

@@ -2,8 +2,10 @@ package controllers.front;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
+import tn.esprit.config.SessionManager;
+import tn.esprit.entities.User;
 
 import java.io.IOException;
 
@@ -11,25 +13,47 @@ public class FrontLayoutController {
 
     @FXML private StackPane contentArea;
 
+    private User currentUser;
+
     @FXML
     public void initialize() {
-        setContent("/front/FrontHome.fxml");
-    }
-
-    private void setContent(String fxmlPath) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-            Parent view = loader.load();
-            contentArea.getChildren().setAll(view);
-        } catch (IOException e) {
-            throw new RuntimeException("Cannot load: " + fxmlPath, e);
+        currentUser = SessionManager.getUser();
+        if (currentUser != null) {
+            goHome();
         }
     }
 
-    @FXML private void goHome()   { setContent("/front/FrontHome.fxml"); }
-    @FXML private void goVoice()  { setContent("/front/Voice.fxml"); }
-    @FXML private void goFiles()  { setContent("/front/Files.fxml"); }
-    @FXML private void goProfile(){ setContent("/front/Profile.fxml"); }
+    @FXML
+    private void goHome() {
+        loadView("/front/FrontHome.fxml");
+    }
 
-    
+    @FXML
+    private void goVoice() {
+        loadView("/front/Voice.fxml");
+    }
+
+    @FXML
+    private void goFiles() {
+        loadView("/front/UserManagedFiles.fxml");
+    }
+
+    @FXML
+    private void goProfile() {
+        loadView("/front/Profile.fxml");
+    }
+
+    private void loadView(String fxmlPath) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Node node = loader.load();
+            contentArea.getChildren().setAll(node);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void goToUserFiles() {
+        loadView("/front/UserFiles.fxml");
+    }
 }
