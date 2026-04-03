@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.front.CreateFileController"
+      spacing="14"
+      style="-fx-background-color: #f3f4f6;">
+
+    <padding>
+        <Insets top="18" right="18" bottom="18" left="18"/>
+    </padding>
+
+    <Label text="Create File"
+           style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <TextField fx:id="fileNameField" promptText="File name (e.g. test.txt)"/>
+    <TextField fx:id="filePathField" promptText="File path"/>
+    <TextField fx:id="fileTypeField" promptText="File type (txt, pdf...)"/>
+
+    <HBox spacing="10">
+        <Button text="Save" onAction="#onSave"/>
+        <Button text="Clear" onAction="#onClear"/>
+    </HBox>
+
+    <Label fx:id="messageLabel" visible="false"/>
+</VBox>

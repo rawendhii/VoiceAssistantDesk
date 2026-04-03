@@ -65,8 +65,7 @@ public class UsersListController {
             if (!roles.isEmpty()) roleCombo.getSelectionModel().select(0);
             hideMessage();
         } catch (SQLException e) {
-            showError("Erreur chargement rôles: " + e.getMessage());
-        }
+        	showError("Error loading roles: " + e.getMessage());        }
     }
 
     private void loadUsers(String keyword) {
@@ -76,8 +75,7 @@ public class UsersListController {
             data.addAll(rows);
             hideMessage();
         } catch (SQLException e) {
-            showError("Erreur chargement utilisateurs: " + e.getMessage());
-        }
+        	showError("Error loading users: " + e.getMessage());        }
     }
 
     @FXML
@@ -96,8 +94,7 @@ public class UsersListController {
     private void onLoadSelected() {
         UserRow row = usersTable.getSelectionModel().getSelectedItem();
         if (row == null) {
-            showError("Veuillez sélectionner un utilisateur.");
-            return;
+        	showError("Please select a user.");            return;
         }
         idField.setText(String.valueOf(row.getId()));
         fullNameField.setText(row.getFullName());
@@ -129,10 +126,8 @@ public class UsersListController {
             userServices.ajouter(u);
             loadUsers(null);
             onClear();
-            showSuccess("Utilisateur ajouté avec succès.");
-        } catch (SQLException e) {
-            showError("Ajout impossible: " + e.getMessage());
-        }
+            showSuccess("User added successfully.");        } catch (SQLException e) {
+            	showError("Failed to add user: " + e.getMessage());        }
     }
 
     @FXML
@@ -208,47 +203,39 @@ public class UsersListController {
     private void onDelete() {
         UserRow row = usersTable.getSelectionModel().getSelectedItem();
         if (row == null) {
-            showError("Veuillez sélectionner un utilisateur à supprimer.");
-            return;
+        	showError("Please select a user to delete.");            return;
         }
 
         if (row.getId() == currentUserId) {
-            showError("Vous ne pouvez pas supprimer votre propre compte.");
-            return;
+        	showError("You cannot delete your own account.");            return;
         }
 
         if ("ADMIN".equalsIgnoreCase(row.getRoleName()) && !"ADMIN".equalsIgnoreCase(currentUserRole)) {
-            showError("Seul un ADMIN peut supprimer un autre ADMIN.");
-            return;
+        	showError("Only an ADMIN can delete another ADMIN.");            return;
         }
 
         if ("ADMIN".equalsIgnoreCase(row.getRoleName())) {
             try {
                 int adminsCount = userServices.countAdmins();
                 if (adminsCount <= 1) {
-                    showError("Impossible de supprimer le dernier ADMIN. Ajoutez un autre ADMIN d'abord.");
-                    return;
+                	showError("Cannot delete the last ADMIN. Please create another ADMIN first.");                    return;
                 }
             } catch (SQLException e) {
-                showError("Erreur vérification admin: " + e.getMessage());
-                return;
+            	showError("Admin validation error: " + e.getMessage());                return;
             }
         }
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
-        alert.setHeaderText("Supprimer l'utilisateur ?");
-        alert.setContentText(row.getFullName() + " (" + row.getEmail() + ")");
+        alert.setHeaderText("Delete this user?");        alert.setContentText(row.getFullName() + " (" + row.getEmail() + ")");
         if (alert.showAndWait().orElse(ButtonType.CANCEL) != ButtonType.OK) return;
 
         try {
             userServices.supprimer(row.getId());
             loadUsers(null);
             onClear();
-            showSuccess("Utilisateur supprimé.");
-        } catch (SQLException e) {
-            showError("Suppression impossible: " + e.getMessage());
-        }
+            showSuccess("User deleted successfully.");        } catch (SQLException e) {
+            	showError("Delete failed: " + e.getMessage());        }
     }
 
     @FXML
@@ -266,20 +253,15 @@ public class UsersListController {
         String email = emailField.getText() == null ? "" : emailField.getText().trim();
         String pass = passwordField.getText() == null ? "" : passwordField.getText().trim();
 
-        if (fullName.length() < 3) return "Nom invalide (minimum 3 caractères).";
-        if (!EMAIL_PATTERN.matcher(email).matches()) return "Email invalide.";
+        if (fullName.length() < 3) return "Invalid name (minimum 3 characters).";        if (!EMAIL_PATTERN.matcher(email).matches()) return "Invalid email.";
 
-        if (roleCombo.getSelectionModel().getSelectedItem() == null) return "Veuillez choisir un rôle.";
-
-        if (isAdd && pass.length() < 6) return "Mot de passe invalide (minimum 6 caractères).";
-        if (!isAdd && !pass.isEmpty() && pass.length() < 6) return "Mot de passe invalide (minimum 6 caractères).";
-
+        if (roleCombo.getSelectionModel().getSelectedItem() == null) return "Please select a role.";
+        if (!isAdd && !pass.isEmpty() && pass.length() < 6) return "Invalid password (minimum 6 characters).";
         if (isAdd) {
             try {
-                if (userServices.emailExists(email)) return "Cet email existe déjà.";
+                if (userServices.emailExists(email)) return "This email already exists.";
             } catch (SQLException e) {
-                return "Erreur validation email: " + e.getMessage();
-            }
+            	return "Email validation error: " + e.getMessage();            }
         }
         return null;
     }

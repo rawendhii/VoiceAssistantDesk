@@ -7,23 +7,42 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
-      spacing="14" style="-fx-background-color: #f3f4f6;">
-    <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.front.VoiceController"
+      spacing="14"
+      style="-fx-background-color: #f3f4f6;">
+    
+    <padding>
+        <Insets top="18" right="18" bottom="18" left="18"/>
+    </padding>
 
-    <Label text="Voice Commands" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
-    <Label text="Start listening, speak your command, then review the recognized text."
+    <Label text="Voice Commands"
+           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #111827;"/>
+    <Label text="Simulate a voice command, then execute it."
            style="-fx-text-fill: #374151;"/>
 
     <HBox spacing="10">
-        <Button text="Start Listening" />
-        <Button text="Stop" />
-        <Button text="Clear" />
+        <Button text="Start Listening" onAction="#onStartListening"/>
+        <Button text="Stop" onAction="#onStopListening"/>
+        <Button text="Clear" onAction="#onClear"/>
+        <Button text="Execute Command" onAction="#onExecuteCommand"/>
     </HBox>
 
     <VBox style="-fx-background-color: white; -fx-border-color: #e5e7eb; -fx-border-radius: 10; -fx-background-radius: 10;">
-        <padding><Insets top="12" right="12" bottom="12" left="12"/></padding>
-        <Label text="Recognized Text" style="-fx-font-weight: bold; -fx-text-fill: #111827;"/>
-        <TextArea promptText="Your recognized speech will appear here..." prefHeight="260"/>
+        <padding>
+            <Insets top="12" right="12" bottom="12" left="12"/>
+        </padding>
+
+        <Label text="Recognized Text"
+               style="-fx-font-weight: bold; -fx-text-fill: #111827;"/>
+        <TextArea fx:id="recognizedTextArea"
+                  promptText="Your recognized speech will appear here..."
+                  prefHeight="220"
+                  wrapText="true"/>
     </VBox>
+
+    <Label fx:id="messageLabel"
+           visible="false"
+           style="-fx-font-size: 13px; -fx-font-weight: bold;"/>
 </VBox>

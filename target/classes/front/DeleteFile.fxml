@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.front.DeleteFileController"
+      spacing="14"
+      style="-fx-background-color: #f3f4f6;">
+
+    <padding>
+        <Insets top="18" right="18" bottom="18" left="18"/>
+    </padding>
+
+    <Label text="Delete File"
+           style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <TextField fx:id="idField" promptText="Enter file ID to delete"/>
+
+    <Button text="Delete" onAction="#onDelete"/>
+
+    <Label fx:id="messageLabel" visible="false"/>
+</VBox>
